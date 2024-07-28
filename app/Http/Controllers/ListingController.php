@@ -17,12 +17,20 @@ class ListingController extends \Illuminate\Routing\Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filters = $request->only([
+            'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
+        ]);
+
         return inertia(
             'Listing/Index',
             [
-                'listings' => Listing::all()
+                'filters' => $filters,
+                'listings' => Listing::mostRecent()
+                    ->filter($filters)
+                    ->paginate(10)
+                    ->withQueryString()
             ]
         );
     }
@@ -88,7 +96,7 @@ class ListingController extends \Illuminate\Routing\Controller
      */
     public function update(Request $request, Listing $listing)
     {
-       $listing->update(
+        $listing->update(
             $request->validate([
                 'beds' => 'required|integer|min:0|max:20',
                 'baths' => 'required|integer|min:0|max:20',
@@ -111,7 +119,7 @@ class ListingController extends \Illuminate\Routing\Controller
     public function destroy(Listing $listing)
     {
         $listing->delete();
-        
+
         return redirect()->back()
             ->with('success', 'Listing was deleted!');
     }
