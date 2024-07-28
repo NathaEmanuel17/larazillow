@@ -14,6 +14,7 @@ class ListingController extends \Illuminate\Routing\Controller
         $this->middleware('auth')->except(['index', 'show']);
         $this->authorizeResource(Listing::class, 'listing');
     }
+    
     /**
      * Display a listing of the resource.
      */
@@ -113,14 +114,4 @@ class ListingController extends \Illuminate\Routing\Controller
             ->with('success', 'Listing was changed!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Listing $listing)
-    {
-        $listing->delete();
-
-        return redirect()->back()
-            ->with('success', 'Listing was deleted!');
-    }
 }
