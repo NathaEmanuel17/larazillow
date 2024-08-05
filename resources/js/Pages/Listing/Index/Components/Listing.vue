@@ -19,13 +19,13 @@
 </template>
 
 <script setup>
-import { Link} from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import ListingAddress from '@/Components/ListingAddress.vue';
 import Box from '@/Components/UI/Box.vue';
 import ListingSpace from '@/Components/ListingSpace.vue';
 import Price from '@/Components/Price.vue';
 import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
 
-const props = defineProps({listing: Object})
+const props = defineProps({ listing: Object })
 const { monthlyPayment } = useMonthlyPayment(props.listing.price, 2.5, 25)
 </script>
